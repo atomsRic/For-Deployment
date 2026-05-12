@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin', 'user'])->default('user'); // RBAC role
+            $table->enum('role', ['admin', 'student'])->default('student'); // RBAC role
             $table->rememberToken();
             $table->timestamps();
         });

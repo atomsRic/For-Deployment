@@ -1,26 +1,34 @@
 @extends('layouts.app')
-@section('title', 'Add Book — Library Management System')
+@section('title', 'Add Book — Libra-Track')
+@section('topbar-title', 'Add Book')
 
 @section('content')
 <div class="page-header">
     <h1 class="page-title">Add New Book</h1>
-    <p class="page-subtitle">Fill in the details below to add a book to the catalog.</p>
+    <p class="page-subtitle">Fill in the details to add a book to the catalog.</p>
 </div>
 
-<div class="card" style="max-width: 700px;">
+<div class="card" style="max-width:700px;">
+    <div class="card-header">
+        <div class="card-title">Book Details</div>
+        <a href="{{ route('books.index') }}" class="btn btn-sm btn-secondary">← Back</a>
+    </div>
+
     <form method="POST" action="{{ route('books.store') }}">
         @csrf
 
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label" for="title">Book Title *</label>
-                <input type="text" id="title" name="title" class="form-control @error('title') is-invalid @enderror"
+                <input type="text" id="title" name="title"
+                       class="form-control @error('title') is-invalid @enderror"
                        placeholder="Enter book title" value="{{ old('title') }}" required>
                 @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="form-group">
                 <label class="form-label" for="author">Author *</label>
-                <input type="text" id="author" name="author" class="form-control @error('author') is-invalid @enderror"
+                <input type="text" id="author" name="author"
+                       class="form-control @error('author') is-invalid @enderror"
                        placeholder="Author's full name" value="{{ old('author') }}" required>
                 @error('author') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
@@ -29,7 +37,8 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label" for="isbn">ISBN</label>
-                <input type="text" id="isbn" name="isbn" class="form-control @error('isbn') is-invalid @enderror"
+                <input type="text" id="isbn" name="isbn"
+                       class="form-control @error('isbn') is-invalid @enderror"
                        placeholder="978-x-xxx-xxxxx-x" value="{{ old('isbn') }}">
                 @error('isbn') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
@@ -60,7 +69,8 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label" for="copies">Number of Copies *</label>
-                <input type="number" id="copies" name="copies" class="form-control @error('copies') is-invalid @enderror"
+                <input type="number" id="copies" name="copies"
+                       class="form-control @error('copies') is-invalid @enderror"
                        placeholder="1" min="1" value="{{ old('copies', 1) }}" required>
                 @error('copies') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
@@ -71,7 +81,7 @@
             </div>
         </div>
 
-        <div style="display:flex; gap:10px; margin-top:0.5rem;">
+        <div style="display:flex; gap:10px; margin-top:0.75rem;">
             <button type="submit" class="btn btn-primary">Add Book</button>
             <a href="{{ route('books.index') }}" class="btn btn-secondary">Cancel</a>
         </div>

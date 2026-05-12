@@ -10,12 +10,14 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'role',
-    ];
+   protected $fillable = [
+    'name',
+    'student_id',
+    'profile_photo',
+    'email',
+    'password',
+    'role',
+];
 
     protected $hidden = [
         'password',
@@ -35,6 +37,11 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    public function isStudent()
+{
+    return $this->role === 'student';
+}
 
     // Relationship: user has many borrows
     public function borrows()

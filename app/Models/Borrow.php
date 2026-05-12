@@ -9,11 +9,11 @@ class Borrow extends Model
 {
     use HasFactory;
 
+    protected $table = 'borrows';
+
     protected $fillable = [
         'user_id',
         'book_id',
-        'borrower_name',
-        'borrower_id_no',
         'borrow_date',
         'due_date',
         'return_date',
@@ -27,21 +27,13 @@ class Borrow extends Model
         'return_date' => 'date',
     ];
 
-    // Relationship: belongs to a user
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Relationship: belongs to a book
     public function book()
     {
-        return $this->belongsTo(Book::class);
-    }
-
-    // Check if overdue
-    public function isOverdue(): bool
-    {
-        return $this->status === 'borrowed' && $this->due_date->isPast();
+        return $this->belongsTo(Book::class, 'book_id');
     }
 }

@@ -5,9 +5,13 @@ use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StudentLookupController;
 
 // ─── Public Home ─────────────────────────────────────────────
 Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
     return view('welcome');
 })->name('home');
 
@@ -52,6 +56,33 @@ Route::middleware(['auth'])->group(function () {
 // ─── Admin Borrow Delete ─────────────────────────────────────
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/borrows/{borrow}', [BorrowController::class, 'destroy'])->name('borrows.destroy');
+    Route::patch('/borrows/{borrow}/return', [BorrowController::class, 'markReturn'])->name('borrows.return');
+});
+
+Route::get('/student/{id}', function ($id) {
+    $user = \App\Models\User::where('student_id', $id)
+                ->orWhere('id', $id)
+                ->where('role', 'student')
+                ->select('id', 'name', 'email', 'student_id')
+                ->first();
+
+    if ($user) {
+        return response()->json([
+            'found' => true,
+            'id'    => $user->id,
+            'name'  => $user->name,
+            'email' => $user->email,
+        ]);
+    }
+
+    return response()->json(['found' => false]);
+});
+
+// ─── Profile Routes ──────────────────────────────────────────
+Route::middleware('auth')->group(function () {
+    Route::get('/profile',        [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile',      [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile',     [App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 // ─── Breeze Auth Routes ──────────────────────────────────────

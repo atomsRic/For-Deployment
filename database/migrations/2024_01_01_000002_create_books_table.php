@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('isbn')->nullable()->unique();
             $table->string('genre')->nullable();
             $table->string('publisher')->nullable();
-            $table->year('year_published')->nullable();
+            $table->integer('year_published')->nullable();
             $table->integer('copies')->default(1);
             $table->string('shelf_location')->nullable();
             $table->enum('status', ['available', 'borrowed', 'unavailable'])->default('available');
